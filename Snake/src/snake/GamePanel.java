@@ -187,6 +187,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		if(apple.isCollsion(head)){
 			Score++;
 			setApple();
+			//increases tail length by 1-3
 			Random rand = new Random();
 			int  n = rand.nextInt(3) + 1;
 			for(int i =0; i < n; i++){
