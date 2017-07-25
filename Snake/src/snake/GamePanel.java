@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -186,9 +187,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		if(apple.isCollsion(head)){
 			Score++;
 			setApple();
-			Entity e =new Entity(SIZE);
-			e.setPostion(-100,-100);
-			snake.add(e);
+			//increases tail length by 1-3
+			Random rand = new Random();
+			int  n = rand.nextInt(3) + 1;
+			for(int i =0; i < n; i++){
+				Entity e =new Entity(SIZE);
+				e.setPostion(head.getX()+(i*SIZE), head.getY());
+				snake.add(e);
+			}
 			
 		}
 		if(head.getX()<0)head.setX(width);
