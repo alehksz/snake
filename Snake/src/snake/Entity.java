@@ -3,12 +3,12 @@ package snake;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-public class Snake {
+public class Entity {
 	private int x;
 	private int y;
 	private int Size;
 	
-	public Snake(int Size){
+	public Entity(int Size){
 		this.Size = Size;
 	}
 	
@@ -39,7 +39,7 @@ public class Snake {
 		return new Rectangle (x,y,Size, Size);
 	}
 	
-	public boolean isCollsion(Snake e){
+	public boolean isCollsion(Entity e){
 		if(e == this)return false;
 		return getBound().intersects(e.getBound());
 	}
