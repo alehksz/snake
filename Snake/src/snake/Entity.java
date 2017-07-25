@@ -39,7 +39,7 @@ public class Entity {
 		return new Rectangle (x,y,Size, Size);
 	}
 	
-	public boolean isCollsion(Entity e){
+	public boolean isCollision(Entity e){
 		if(e == this)return false;
 		return getBound().intersects(e.getBound());
 	}
