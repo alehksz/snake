@@ -1,94 +1,52 @@
 package snake;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.function.Function;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-
-
-
-public class Snake extends JFrame implements KeyListener {
-		
-	private static final String COMMAND_W = "W";
-	private static final String COMMAND_A = "A";
-	private static final String COMMAND_S = "S";
-	private static final String COMMAND_D = "D";
+public class Snake {
+	private int x;
+	private int y;
+	private int Size;
 	
-	
-	public Snake() {
-		setVisible(true);
-		//set size of app
-		setMinimumSize(new Dimension(800,600));
-		//centres to middle screen
-		setLocationRelativeTo(null);
-		//terminates program on close
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//title
-		setTitle("SNAAKE");
-		//cannot resize
-		setResizable(false);
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent event) { }
-
-	@Override
-	public void keyReleased(KeyEvent event) { }
-
-	@Override
-	public void keyTyped(KeyEvent event) {
-       char c = event.getKeyChar();
-		if (c == COMMAND_W.charAt(0)) {
-		}
-		else if (c == COMMAND_A.charAt(0)) {
-			//GamePanel.update();
-		}    
-		else if (c == COMMAND_S.charAt(0)) {
-			//GamePanel.update();
-		}  
-		else if (c == COMMAND_D.charAt(0)) {
-			//GamePanel.update();
-		}  
+	public Snake(int Size){
+		this.Size = Size;
 	}
 	
-
-	public class SnakeTail {		
-		
-		private int x;
-		private int y;
-		private int r;
-
-		public SnakeTail(int x, int y, int r) {
-			this.x = x;
-			this.y = y;
-			this.r = r;
-		}
-
+	
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	public void setPostion(int x, int y)
+	{
+		this.x= x;
+		this.y =y;
 	}
 	
-	// ***********************************************************************
-	
-
-	
-	// ***********************************************************************
-	
-	
-	public static void main(String[] args) {
-	    new Snake();
+	public void move(int dx, int dy){
+		x +=dx;
+		y +=dy;
 	}
+	public Rectangle getBound(){
+		return new Rectangle (x,y,Size, Size);
+	}
+	
+	public boolean isCollsion(Snake e){
+		if(e == this)return false;
+		return getBound().intersects(e.getBound());
+	}
+	public void render (Graphics2D g2d){
+		g2d.fillRect(x +1, y +1, Size-2, Size-2);
+	}
+	
+	
 
 }
