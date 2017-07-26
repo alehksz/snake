@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+
+
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, KeyListener, ActionListener {
 
@@ -48,6 +50,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     private boolean right;
     private boolean left;
     private boolean start;
+    
+    
    
    
    
@@ -55,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         setPreferredSize(new Dimension(width,height));
         setFocusable(true);
         requestFocus();
-        addKeyListener(this);   
+        addKeyListener(this);
        
     }
    
@@ -125,11 +129,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     }
    
     private void init() {
-        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+    	
+    	image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         g2d = image.createGraphics();
         running =true;
-        setUpLevel();
-       
+        setUpLevel();  
     }
    
     private void setUpLevel(){
@@ -286,6 +290,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+    	
        
-    }}
+    }
+    }

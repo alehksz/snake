@@ -9,12 +9,20 @@ public class Snake{
 	
 	
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Snake");
-		frame.setContentPane(new GamePanel());
+//		JFrame frame = new JFrame("Snake");
+//		frame.setContentPane(new GamePanel());
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setResizable(false);
+//		frame.pack();
+//		frame.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
+//		frame.setLocationRelativeTo(null);
+//		frame.setVisible(true);
+		JFrame frame = new JFrame("Snake Start");
+		frame.setContentPane(new StartPanel());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.pack();
-		frame.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
+		frame.setPreferredSize(new Dimension(400, 400));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
