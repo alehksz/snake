@@ -38,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     private int Score;
     private int level;
     private boolean gameover;
+    private int timer=0;
    
     private int dx;
     private int dy;
@@ -185,7 +186,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     }
 
     private void update() {
-       
+       timer++;
+       if(timer==1000)
+       {
+    	   
+       }
         if(gameover){
             if(start){
                 setUpLevel();
@@ -244,10 +249,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         {
         	gameover = true;
         	}
-        if(head.getX()<0)head.setX(width);
-        if(head.getY()<0)head.setY(height);
-        if(head.getX()> width)head.setX(0);
-        if(head.getY()>height)head.setY(0);
+        if(head.getX()<0)gameover=true;
+        
+        if(head.getY()<0)gameover=true;
+        if(head.getX()> width)gameover=true;
+        if(head.getY()>height)gameover=true;
     }
    
     public void render(Graphics2D g2d){
