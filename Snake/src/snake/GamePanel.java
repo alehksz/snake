@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     private int SIZE = 10;
     private Entity head;
     private Entity apple;
+    private Entity poison;
     private ArrayList<Entity> snake;
     private int Score;
     private int level;
@@ -149,6 +150,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         level = 1;
         dx = dy = 0;
         setFPS(level * 10);
+        poison = new Entity(SIZE);
+        setPoison();
        
        
     }
@@ -159,6 +162,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         x = x-(x % SIZE);
         y = y-(y% SIZE);
         apple.setPostion(x, y);
+    }
+    public void setPoison(){
+        int x = (int)(Math.random()*(width-SIZE));
+        int y = (int)(Math.random()*(height - SIZE));
+        x = x-(x % SIZE);
+        y = y-(y% SIZE);
+        if((apple.getX()==poison.getX())&&(apple.getY()==poison.getY()))
+        {
+        	setPoison();
+        }
+        else{
+        poison.setPostion(x, y);
+        }
     }
 
     private void requestRender() {
@@ -224,6 +240,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 			}
 			
 		}
+        if(poison.isCollision(head))
+        {
+        	gameover = true;
+        	}
         if(head.getX()<0)head.setX(width);
         if(head.getY()<0)head.setY(height);
         if(head.getX()> width)head.setX(0);
@@ -243,7 +263,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         g2d.drawString("GameOver!", 150, 200);
     }
    
-   
+    g2d.setColor(Color.YELLOW);
+    poison.render(g2d);
+    if(gameover){
+        g2d.drawString("GameOver!", 150, 200);
+    }
     g2d.setColor(Color.WHITE);
     g2d.drawString("score: " + Score + " Level: " + level, 10, 10);
     if(dx == 0 && dy == 0 ){
