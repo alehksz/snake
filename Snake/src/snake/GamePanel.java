@@ -241,6 +241,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
             if(start)
             {
                 setUpLevel();
+                gameover=false;
                    
             }
                
