@@ -20,12 +20,24 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
     private boolean running;
 	private static final String Command_Start = "Start";
 	private Thread thread;
-	
-	public StartPanel(){
+	private JFrame startFrame;
+	private JFrame gameframe;
+	public StartPanel(JFrame frame){
+		
         setPreferredSize(new Dimension(width,height));
         setFocusable(true);
         requestFocus();
         addKeyListener(this);
+        this.startFrame=frame;
+        BtnInit();
+        gameframe = new JFrame("Snake");
+        gameframe.setContentPane(new GamePanel(startFrame));
+        gameframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameframe.setResizable(false);
+        gameframe.pack();
+        gameframe.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
+        gameframe.setLocation(WIDTH/2,HEIGHT/2);
+        gameframe.setVisible(false);
 	}
 	
 	@Override
@@ -38,14 +50,14 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 	 @Override
 	    public void run() {
 	        if(running) return;
-	        BtnInit();
+	        
 	        long startTime;
 	        long elapsed;
 	        long wait;
 	        while(running){
 	            startTime = System.nanoTime();
 	            //requestRender();
-	           
+	            
 	            elapsed = System.nanoTime() - startTime;
 	            wait = targetTime -elapsed/1000000;
 	            if(wait>0){
@@ -76,14 +88,18 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 		{
 			start=true;
 			
-			JFrame frame = new JFrame("Snake");
-			frame.setContentPane(new GamePanel());
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setResizable(false);
-			frame.pack();
-			frame.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
-			frame.setLocationRelativeTo(null);
-			frame.setVisible(true);
+			//gameframe = new JFrame("Snake");
+			//startFrame.setContentPane(new GamePanel(startFrame));
+			//JFrame gameframeframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			//JFrame gameframeframe.setResizable(false);
+			//JFrame gameframeframe.pack();
+			//JFrame gameframeframe.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
+			//meframe.setLocationRelativeTo(null);
+			gameframe.setVisible(true);
+			
+			//BtnInit();
+			//this.setVisible(false);
+			
 		}
        
     }
@@ -94,14 +110,16 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
         if (key == KeyEvent.VK_ENTER)
         {
         	start = true;
-        	JFrame frame = new JFrame("Snake");
-    		frame.setContentPane(new GamePanel());
-    		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    		frame.setResizable(false);
-    		frame.pack();
-    		frame.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
-    		frame.setLocationRelativeTo(null);
-    		frame.setVisible(true);
+        	//JFrame frame = new JFrame("Snake");
+    		//startFrame.setContentPane(new GamePanel(startFrame));
+    		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		//frame.setResizable(false);
+    		//frame.pack();
+    		//frame.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
+    		//frame.setLocationRelativeTo(null);
+        	gameframe.setVisible(true);
+        	//BtnInit();
+        	//this.setVisible(false);
         }
     }
 

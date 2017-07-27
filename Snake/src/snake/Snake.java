@@ -18,12 +18,15 @@ public class Snake{
 //		frame.setLocationRelativeTo(null);
 //		frame.setVisible(true);
 		JFrame frame = new JFrame("Snake Start");
-		frame.setContentPane(new StartPanel());
+		frame.setContentPane(new StartPanel(frame));
+		//frame.setContentPane(new GamePanel(frame));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.pack();
 		frame.setPreferredSize(new Dimension(400, 400));
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		frame.setVisible(true); 
+		
+		
 	}
 }

@@ -37,7 +37,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     private Entity apple;
     private Entity poison;
     private ArrayList<Entity> snake;
-    private int Score;
+    private int SnakeSize;
+    private int score;
     private int level;
     private boolean gameover;
     private int timer=0;
@@ -50,17 +51,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     private boolean right;
     private boolean left;
     private boolean start;
+    private JFrame startFrame;
     
     
    
    
    
-    public GamePanel(){
+    public GamePanel(JFrame frame){
         setPreferredSize(new Dimension(width,height));
+        setLayout(new BorderLayout());
         setFocusable(true);
         requestFocus();
         addKeyListener(this);
-       
+        setVisible(true);
+        this.startFrame=frame;
+        //startFrame.hide();
     }
    
     @Override
@@ -73,17 +78,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         targetTime =1000/fps;
        
     }
-   
-   
+   @Override
+    public void actionPerformed(ActionEvent e)
+    {
+	   String command = e.getActionCommand();
+		if (command.equals("Start"))
+		{
+			start=true;
+			
+		}
+    }
     @Override
     public void keyPressed(KeyEvent k) {
         int key = k.getKeyCode();
        
-        if (key == KeyEvent.VK_UP) up = true;
-        if (key == KeyEvent.VK_DOWN) down = true;
-        if (key == KeyEvent.VK_LEFT) left = true;
-        if (key == KeyEvent.VK_RIGHT) right = true;
-        if (key == KeyEvent.VK_ENTER) start = true;
+        if (key == KeyEvent.VK_UP) 
+        	up = true;
+        if (key == KeyEvent.VK_DOWN) 
+        	down = true;
+        if (key == KeyEvent.VK_LEFT) 
+        	left = true;
+        if (key == KeyEvent.VK_RIGHT) 
+        	right = true;
+        if (key == KeyEvent.VK_ENTER) 
+        	start = true;
     }
 
     @Override
@@ -133,7 +151,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     	image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         g2d = image.createGraphics();
         running =true;
-        setUpLevel();  
+//        JPanel commandPanel = new JPanel();
+//        add(BorderLayout.SOUTH,commandPanel);
+//        JButton startButton = new JButton("Start");
+//        commandPanel.add(startButton);
+//        startButton.setActionCommand("Start");
+//        addKeyListener(this);
+          setUpLevel();
+        
     }
    
     private void setUpLevel(){
@@ -150,11 +175,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
        
         apple = new Entity(SIZE);
         setApple();
-        Score = 0;
+        SnakeSize = 2;
+        score =0;
         gameover = false;
         level = 1;
         dx = dy = 0;
-        setFPS(level * 10);
+        setFPS(10);
         poison = new Entity(SIZE);
         setPoison();
        
@@ -195,8 +221,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
        {
     	   
        }
-        if(gameover){
-            if(start){
+        if(gameover)
+        {
+        	//------------------------------------------------------
+        	running=false;
+        	
+        	//JFrame frame = new JFrame("Snake Start");
+    		//startFrame.setContentPane(new StartPanel(startFrame));
+    		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		//frame.setResizable(false);
+    		//frame.pack();
+    		//frame.setPreferredSize(new Dimension(400, 400));
+    		//frame.setLocationRelativeTo(null);
+    		startFrame.requestFocus();
+    		running=true;
+    		start=true;
+    		run();
+        	//------------------------------------------------------
+            if(start)
+            {
                 setUpLevel();
                    
             }
@@ -237,27 +280,29 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
        
        
         if(apple.isCollision(head)){
-			Score++;
+        	score++;
 			setApple();
 			//increases tail length by 1-3
 			Random rand = new Random();
 			int  n = rand.nextInt(3) + 1;
 			for(int i =0; i < n; i++){
 				Entity e =new Entity(SIZE);
-				e.setPostion(head.getX()+(i*SIZE), head.getY());
+				e.setPostion(head.getX(), head.getY());
 				snake.add(e);
+				SnakeSize++;
 			}
 			
 		}
         if(poison.isCollision(head))
         {
         	gameover = true;
-        	}
+        }
+        
         if(head.getX()<0)gameover=true;
         
         if(head.getY()<0)gameover=true;
-        if(head.getX()> width)gameover=true;
-        if(head.getY()>height)gameover=true;
+        if(head.getX()> width-10)gameover=true;
+        if(head.getY()>height-10)gameover=true;
     }
    
     public void render(Graphics2D g2d){
@@ -279,7 +324,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         g2d.drawString("GameOver!", 150, 200);
     }
     g2d.setColor(Color.WHITE);
-    g2d.drawString("score: " + Score + " Level: " + level, 10, 10);
+    g2d.drawString("snake size:" + SnakeSize + "  Level: " + level +"  Score: "+ score, 10, 10);
     if(dx == 0 && dy == 0 ){
         g2d.drawString("Ready!", 150, 200);
     }
@@ -288,9 +333,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
    
    
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    	
-       
-    }
+    
+    
     }
