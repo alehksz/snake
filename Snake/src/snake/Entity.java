@@ -7,6 +7,7 @@ public class Entity {
 	private int x;
 	private int y;
 	private int Size;
+	private boolean visible = true;
 	
 	public Entity(int Size){
 		this.Size = Size;
@@ -19,6 +20,9 @@ public class Entity {
 	public void setX(int x) {
 		this.x = x;
 	}
+	public boolean getVisible(){
+		return visible;
+	}
 	public int getY() {
 		return y;
 	}
@@ -29,6 +33,9 @@ public class Entity {
 	{
 		this.x= x;
 		this.y =y;
+	}
+	public void setVisible(boolean visible){
+		this.visible=visible;
 	}
 	
 	public void move(int dx, int dy){
