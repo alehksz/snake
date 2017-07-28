@@ -34,9 +34,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
    
     private int SIZE = 10;
     private Entity head;
-    private Entity apple;
     private Entity poison;
+    private Entity apple;
     private ArrayList<Entity> snake;
+    private ArrayList<Entity> apples;
     private int SnakeSize;
     private int score;
     private int level;
@@ -163,6 +164,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
    
     private void setUpLevel(){
         snake = new ArrayList<Entity>();
+        apples = new ArrayList<Entity>();
         head = new Entity(SIZE);
         head.setPostion(width/2, height/2);
         snake.add(head);
@@ -172,9 +174,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
             e.setPostion(head.getX()+(i*SIZE), head.getY());
             snake.add(e);
         }
-       
-        apple = new Entity(SIZE);
-        setApple();
+        for(int j =0; j < 15; j++){
+            Entity e =new Entity(SIZE);
+            int x = (int)(Math.random()*(width-SIZE));
+            int y = (int)(Math.random()*(height - SIZE));
+            x = x-(x % SIZE);
+            y = y-(y% SIZE);
+            e.setPostion(x, y);
+            apples.add(e);
+         }
+        
         SnakeSize = 2;
         score =0;
         gameover = false;
@@ -187,25 +196,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
        
     }
    
-    public void setApple(){
-        int x = (int)(Math.random()*(width-SIZE));
-        int y = (int)(Math.random()*(height - SIZE));
-        x = x-(x % SIZE);
-        y = y-(y% SIZE);
-        apple.setPostion(x, y);
-    }
+//    public void setApple(){
+//        int x = (int)(Math.random()*(width-SIZE));
+//        int y = (int)(Math.random()*(height - SIZE));
+//        x = x-(x % SIZE);
+//        y = y-(y% SIZE);
+//        apple.setPostion(x, y);
+//    }
     public void setPoison(){
         int x = (int)(Math.random()*(width-SIZE));
         int y = (int)(Math.random()*(height - SIZE));
         x = x-(x % SIZE);
         y = y-(y% SIZE);
-        if((apple.getX()==poison.getX())&&(apple.getY()==poison.getY()))
+        /*if((apple.getX()==poison.getX())&&(apple.getY()==poison.getY()))
         {
         	setPoison();
         }
         else{
         poison.setPostion(x, y);
         }
+        */
     }
 
     private void requestRender() {
@@ -280,7 +290,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         }
        
        
-        if(apple.isCollision(head)){
+       /* if(apple.isCollision(head)){
         	score++;
 			setApple();
 			//increases tail length by 1-3
@@ -294,16 +304,36 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 			}
 			
 		}
+		*/
         if(poison.isCollision(head))
         {
         	gameover = true;
         }
         
-        if(head.getX()<0)gameover=true;
         
+        for(Entity e: apples){
+        	if(e.isCollision(head)){
+            	score++;
+    			//increases tail length by 1-3
+    			Random rand = new Random();
+    			int  n = rand.nextInt(3) + 1;
+    			for(int i =0; i < n; i++){
+    				Entity a =new Entity(SIZE);
+    				a.setPostion(head.getX(), head.getY());
+    				snake.add(a);
+    				SnakeSize++;
+        		e.setVisible(false);
+        	}
+
+        }
+
+        
+        
+        if(head.getX()<0)gameover=true;
         if(head.getY()<0)gameover=true;
         if(head.getX()> width-10)gameover=true;
         if(head.getY()>height-10)gameover=true;
+        }
     }
    
     public void render(Graphics2D g2d){
@@ -313,22 +343,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
             e.render(g2d);
         }
        
-    g2d.setColor(Color.RED);
-    apple.render(g2d);
-    if(gameover){
-        g2d.drawString("GameOver!", 150, 200);
-    }
+
+    for(Entity e: apples){
+    	if(e.getVisible()){
+        g2d.setColor(Color.RED);
+    	e.render(g2d);
+    	}
+        
    
-    g2d.setColor(Color.YELLOW);
+    /*g2d.setColor(Color.YELLOW);
     poison.render(g2d);
     if(gameover){
         g2d.drawString("GameOver!", 150, 200);
     }
+    */
     g2d.setColor(Color.WHITE);
     g2d.drawString("snake size:" + SnakeSize + "  Level: " + level +"  Score: "+ score, 10, 10);
     if(dx == 0 && dy == 0 ){
         g2d.drawString("Ready!", 150, 200);
     }
+    }
+   
+   
     }
    
    
