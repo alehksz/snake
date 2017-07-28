@@ -38,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     private Entity apple;
     private ArrayList<Entity> snake;
     private ArrayList<Entity> apples;
+    private ArrayList<Entity> poisons;
     private int SnakeSize;
     private int score;
     private int level;
@@ -165,6 +166,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     private void setUpLevel(){
         snake = new ArrayList<Entity>();
         apples = new ArrayList<Entity>();
+        poisons = new ArrayList<Entity>();
         head = new Entity(SIZE);
         head.setPostion(width/2, height/2);
         snake.add(head);
@@ -183,6 +185,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
             e.setPostion(x, y);
             apples.add(e);
          }
+        for(int k = 0; k < 4; k++){
+        	Entity e = new Entity(SIZE);
+        	int x = (int)(Math.random()*(width-SIZE));
+        	int y = (int)(Math.random()*(height - SIZE));
+            x = x-(x % SIZE);
+            y = y-(y% SIZE);
+            e.setPostion(x, y);
+            poisons.add(e);
+        }
         
         SnakeSize = 2;
         score =0;
@@ -190,8 +201,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         level = 1;
         dx = dy = 0;
         setFPS(10);
-        poison = new Entity(SIZE);
-        setPoison();
+        //poison = new Entity(SIZE);
+        //setPoison();
        
        
     }
@@ -203,20 +214,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 //        y = y-(y% SIZE);
 //        apple.setPostion(x, y);
 //    }
-    public void setPoison(){
-        int x = (int)(Math.random()*(width-SIZE));
-        int y = (int)(Math.random()*(height - SIZE));
-        x = x-(x % SIZE);
-        y = y-(y% SIZE);
-        /*if((apple.getX()==poison.getX())&&(apple.getY()==poison.getY()))
-        {
-        	setPoison();
-        }
-        else{
-        poison.setPostion(x, y);
-        }
-        */
-    }
+//    public void setPoison(){
+//        int x = (int)(Math.random()*(width-SIZE));
+//        int y = (int)(Math.random()*(height - SIZE));
+//        x = x-(x % SIZE);
+//        y = y-(y% SIZE);
+//        /*if((apple.getX()==poison.getX())&&(apple.getY()==poison.getY()))
+//        {
+//        	setPoison();
+//        }
+//        else{
+//        poison.setPostion(x, y);
+//        }
+//        */
+//    }
 
     private void requestRender() {
         render(g2d);
@@ -305,10 +316,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 			
 		}
 		*/
-        if(poison.isCollision(head))
-        {
-        	gameover = true;
-        }
+        //if(poison.isCollision(head))
+       // {
+        	//gameover = true;
+        //}
         
         
         for(Entity e: apples){
@@ -334,6 +345,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         if(head.getX()> width-10)gameover=true;
         if(head.getY()>height-10)gameover=true;
         }
+        for(Entity e: poisons){
+        	if(e.isCollision(head)){
+            	gameover=true;
+
+        }
+
+        
+        
+        if(head.getX()<0)gameover=true;
+        if(head.getY()<0)gameover=true;
+        if(head.getX()> width-10)gameover=true;
+        if(head.getY()>height-10)gameover=true;
+        }
+        
     }
    
     public void render(Graphics2D g2d){
@@ -350,13 +375,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     	e.render(g2d);
     	}
         
+    for(Entity p: poisons){
+        if(p.getVisible()){
+        g2d.setColor(Color.YELLOW);
+        p.render(g2d);
+        }
    
     /*g2d.setColor(Color.YELLOW);
     poison.render(g2d);
-    if(gameover){
+    */if(gameover){
         g2d.drawString("GameOver!", 150, 200);
     }
-    */
+    
     g2d.setColor(Color.WHITE);
     g2d.drawString("snake size:" + SnakeSize + "  Level: " + level +"  Score: "+ score, 10, 10);
     if(dx == 0 && dy == 0 ){
@@ -372,4 +402,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 
     
     
+    }
     }
