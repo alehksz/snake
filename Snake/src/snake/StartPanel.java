@@ -2,14 +2,19 @@ package snake;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 
 public class StartPanel extends JPanel implements Runnable, KeyListener, ActionListener {
 	
@@ -22,14 +27,24 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 	private Thread thread;
 	private JFrame startFrame;
 	private JFrame gameframe;
-	public StartPanel(JFrame frame){
-		
-        setPreferredSize(new Dimension(width,height));
-        setFocusable(true);
-        requestFocus();
+	private JButton startbtn;
+	
+	public StartPanel(JFrame frame,JButton start){
+		this.startFrame=frame;				
+		this.startbtn = start;				
+        //setPreferredSize(new Dimension(width,height));
+        setFocusable(true);                       	    	    
+        requestFocus();        
         addKeyListener(this);
-        this.startFrame=frame;
-        BtnInit();
+        //BtnInit();
+        //TextInit();                        
+        startbtn.addActionListener(this);
+	    startbtn.addKeyListener(this);
+        //player= new PlayerText();
+        //BtnInit();
+        //TextInit();
+        //startFrame.pack();
+        
         gameframe = new JFrame("Snake");
         gameframe.setContentPane(new GamePanel(startFrame));
         gameframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,16 +86,24 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 	        }
 	       
 	    }
-	private void BtnInit()
+	/*private void BtnInit()
 	   {
-		   JPanel commandPanel = new JPanel();
-	       add(BorderLayout.SOUTH, commandPanel);
+		   //JPanel commandPanel = new JPanel();
+	       commandPanel.setLayout(new BoxLayout(commandPanel,BoxLayout.Y_AXIS));
 	       JButton startBtn = new JButton(Command_Start);
-	       commandPanel.add(startBtn);
+	       commandPanel.add(startBtn);	       
 	       startBtn.setActionCommand(Command_Start);
 	       startBtn.addActionListener(this);
 	       startBtn.addKeyListener(this);
 	   }
+	private void TextInit()
+	{
+		//JPanel textPanel = new JPanel();
+		
+		textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.Y_AXIS));
+		player = new PlayerText();
+		textPanel.add(player);
+	}*/
 	@Override
     public void actionPerformed(ActionEvent e) {
     	String command = e.getActionCommand();
@@ -135,4 +158,5 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
        
     }
 
+    
 }
