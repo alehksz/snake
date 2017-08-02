@@ -10,6 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -39,11 +47,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     private ArrayList<Entity> snake;
     private ArrayList<Entity> apples;
     private ArrayList<Entity> poisons;
+    private ArrayList<String> spawned=new ArrayList<String>();
     private int SnakeSize;
     private int score;
     private int level;
     private boolean gameover;
     private int timer=0;
+    private File file;
    
     private int dx;
     private int dy;
@@ -67,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         addKeyListener(this);
         setVisible(true);
         this.startFrame=frame;
-        //startFrame.hide();
+        file = new File("scores.txt");
     }
    
     @Override
@@ -176,7 +186,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
             e.setPostion(head.getX()+(i*SIZE), head.getY());
             snake.add(e);
         }
-        for(int j =0; j < 15; j++){
+        /*for(int j =0; j < 15; j++){
             Entity e =new Entity(SIZE);
             int x = (int)(Math.random()*(width-SIZE));
             int y = (int)(Math.random()*(height - SIZE));
@@ -184,17 +194,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
             y = y-(y% SIZE);
             e.setPostion(x, y);
             apples.add(e);
-         }
-        for(int k = 0; k < 4; k++){
-        	Entity e = new Entity(SIZE);
-        	int x = (int)(Math.random()*(width-SIZE));
-        	int y = (int)(Math.random()*(height - SIZE));
-            x = x-(x % SIZE);
-            y = y-(y% SIZE);
-            e.setPostion(x, y);
-            poisons.add(e);
-        }
-        
+         }*/
+        //for(int k = 0; k < 4; k++){
+        createApples();
+        createPoisons();
         SnakeSize = 2;
         score =0;
         gameover = false;
@@ -205,6 +208,108 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         //setPoison();
        
        
+    }
+    private void createPoisons()
+    {
+    	if(poisons.size()<=4)
+    		{
+    			Entity e = new Entity(SIZE);
+    			int x = (int)(Math.random()*(width-SIZE));
+    			int y = (int)(Math.random()*(height - SIZE));
+    			
+        
+    			if((x>=width/2 - SIZE) &&(x<=width/2 + 5*SIZE) &&(y<=height/2 + 2*SIZE)&&(y>=height/2 - 2*SIZE))
+    				{
+    					createPoisons();
+    				}
+    			else
+    				{
+    					x = x-(x % SIZE);
+    					y = y-(y% SIZE);
+    					e.setPostion(x, y);
+    					if(spawned.size()>0)
+    					{
+    					if(!checkSpawn(e))
+    					{
+    						poisons.add(e);
+    						spawned.add(e.toString());
+    					}
+    					else if(checkSpawn(e))
+    					{
+    						createPoisons();
+    					}
+    					}
+    					else
+    					{
+    						poisons.add(e);
+    						spawned.add(e.toString());
+    					}
+    					
+    					
+    					
+    				}
+    			createPoisons();
+    		}
+    	
+    }
+    
+    private void createApples()
+    {
+    	if(apples.size()<=15)
+		{
+			Entity e = new Entity(SIZE);
+			int x = (int)(Math.random()*(width-SIZE));
+			int y = (int)(Math.random()*(height - SIZE));
+			
+    
+			if((x>=width/2 - SIZE) &&(x<=width/2 + 5*SIZE) &&(y<=height/2 + 2*SIZE)&&(y>=height/2 - 2*SIZE))
+				{
+					createApples();
+				}
+			else
+				{
+					x = x-(x % SIZE);
+					y = y-(y% SIZE);
+					e.setPostion(x, y);
+					if(spawned.size()>0)
+					{
+					if(!checkSpawn(e))
+					{
+						apples.add(e);
+						spawned.add(e.toString());
+					}
+					else if(checkSpawn(e))
+					{
+						createApples();
+					}
+					}
+					else
+					{
+						apples.add(e);
+						spawned.add(e.toString());
+					}
+					
+					
+					
+				}
+			createApples();
+		}
+    }
+    private boolean checkSpawn(Entity e)
+    {
+    	String ePos = e.toString();
+    	for(int x = 0; x<spawned.size();x++)
+    	{
+    		if(ePos.equals(spawned.get(x)))
+    				{
+    					return true;
+    				}
+    		
+    	}
+    	
+    	return false;
+    
+    	
     }
    
 //    public void setApple(){
@@ -237,6 +342,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     }
 
     private void update() {
+
        timer++;
        if(timer==1000)
        {
@@ -361,6 +467,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         
     }
    
+    /*private void recordScore(String score) 
+    {
+    	
+   	     if(file.exists())
+   	     {
+   	    	FileOutputStream is = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(is);    
+            Writer w = new BufferedWriter(osw);
+            w.write("score");
+            w.close(); 
+   	     }
+   	     
+             
+   	     
+       	
+   	  
+      }*/
+     
+    
+    
     public void render(Graphics2D g2d){
         g2d.clearRect(0, 0, width, height);
         g2d.setColor(Color.GREEN);
@@ -385,6 +511,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
     poison.render(g2d);
     */if(gameover){
         g2d.drawString("GameOver!", 150, 200);
+        // Record Highscore
+        // Grab text from StartPanel textbox
+        // write to txt file with score
+        //String highscore = Snake.StartFrame.getPlayerText() + ": " + score;
+        
+        
     }
     
     g2d.setColor(Color.WHITE);

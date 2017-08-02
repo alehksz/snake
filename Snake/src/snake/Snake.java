@@ -71,6 +71,10 @@ public class Snake{
     		
     		
     	}
+    	public static String getPlayerText()
+    	{
+    		return player.getText();
+    	}
     	
     }
 }

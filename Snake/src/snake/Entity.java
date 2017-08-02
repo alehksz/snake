@@ -53,6 +53,24 @@ public class Entity {
 	public void render (Graphics2D g2d){
 		g2d.fillRect(x +1, y +1, Size-2, Size-2);
 	}
+	public boolean CompareTo(Entity e1, Entity e2)
+	{
+		if((e1.getX() == e2.getX()) && (e1.getY()==e2.getY()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+			
+		
+	}
+	public  String toString()
+	{
+		return(""+x+","+y);
+	}
 	
 	
 
