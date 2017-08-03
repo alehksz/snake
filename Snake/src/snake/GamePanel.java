@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Random;
@@ -351,16 +352,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         if(gameover)
         {
         	//------------------------------------------------------
-        	running=false;
-        	
-        	//JFrame frame = new JFrame("Snake Start");
-    		//startFrame.setContentPane(new StartPanel(startFrame));
-    		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    		//frame.setResizable(false);
-    		//frame.pack();
-    		//frame.setPreferredSize(new Dimension(400, 400));
-    		//frame.setLocationRelativeTo(null);
+        	running=false;       	
     		startFrame.requestFocus();
+    		try{
+    		recordScore(score);
+    		}catch(FileNotFoundException exc){System.out.println("File not found");}
     		running=true;
     		start=true;
     		run();
@@ -467,23 +463,34 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         
     }
    
-    /*private void recordScore(String score) 
+    private void recordScore(int score) throws FileNotFoundException 
     {
-    	
+    	String highscore = Snake.StartFrame.getPlayerText() + ": " + score;
    	     if(file.exists())
    	     {
-   	    	FileOutputStream is = new FileOutputStream(file);
-            OutputStreamWriter osw = new OutputStreamWriter(is);    
-            Writer w = new BufferedWriter(osw);
-            w.write("score");
-            w.close(); 
+   	    	try(
+   	    	 PrintWriter out = new PrintWriter(file)){
+   	    	out.println(highscore);
+   	    	out.close();
+   	    	}
+   	    	throw new FileNotFoundException();
+   	     }
+   	     else
+   	     {
+   	    	 file = new File("scores.txt");
+   	    	try(
+   	   	    	 PrintWriter out = new PrintWriter(file)){
+   	   	    	out.println(highscore);
+   	   	    	out.close();
+   	   	    	}
+   	   	    	throw new FileNotFoundException();
    	     }
    	     
              
    	     
        	
    	  
-      }*/
+      }
      
     
     
