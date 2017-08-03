@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -199,7 +200,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
         //for(int k = 0; k < 4; k++){
         createApples();
         createPoisons();
-        SnakeSize = 2;
+        SnakeSize = 4;
         score =0;
         gameover = false;
         level = 1;
@@ -465,30 +466,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
    
     private void recordScore(int score) throws FileNotFoundException 
     {
-    	String highscore = Snake.StartFrame.getPlayerText() + ": " + score;
-   	     if(file.exists())
-   	     {
-   	    	try(
-   	    	 PrintWriter out = new PrintWriter(file)){
-   	    	out.println(highscore);
+    	String highscore = Snake.StartFrame.getPlayerText() + ": " + score+"\n";
+   	     
+   	     
+   	    	try{
+   	    	 FileWriter out=new FileWriter("scores.txt",true);
+   	    	out.write(highscore);
    	    	out.close();
-   	    	}
-   	    	throw new FileNotFoundException();
-   	     }
-   	     else
-   	     {
-   	    	 file = new File("scores.txt");
-   	    	try(
-   	   	    	 PrintWriter out = new PrintWriter(file)){
-   	   	    	out.println(highscore);
-   	   	    	out.close();
-   	   	    	}
-   	   	    	throw new FileNotFoundException();
-   	     }
+   	    	}catch(IOException exc){
+   	    	throw new FileNotFoundException();}
    	     
-             
-   	     
-       	
    	  
       }
      
