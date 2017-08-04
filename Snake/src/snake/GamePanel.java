@@ -466,7 +466,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
    
     private void recordScore(int score) throws FileNotFoundException 
     {
-    	String highscore = Snake.StartFrame.getPlayerText() + ": " + score+"\n";
+    	String highscore =score+", "+Snake.StartFrame.getPlayerText()+"\n";
    	     
    	     
    	    	try{
