@@ -15,7 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-
+/**
+ * The Class StartPanel.
+ */
 public class StartPanel extends JPanel implements Runnable, KeyListener, ActionListener {
 
 	private long targetTime;
@@ -26,7 +28,13 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 	private JFrame startFrame;
 	private JFrame gameframe;
 	private JButton startbtn;
-
+	
+	/**
+	 * Instantiates a new start panel.
+	 *
+	 * @param frame the calling frame
+	 * @param start the start button
+	 */
 	public StartPanel(JFrame frame, JButton start) {
 		this.startFrame = frame;
 		this.startbtn = start;
@@ -51,7 +59,11 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 		thread = new Thread(this);
 		thread.start();
 	}
-
+	/**
+	 * Running method, multi threading
+	 *
+	 * 
+	 */
 	@Override
 	public void run() {
 		if (running)
@@ -75,7 +87,10 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 		}
 
 	}
-
+	/**
+	 * Event listener for start command. Sets the gameframe to visible 
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
@@ -85,7 +100,10 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 		}
 
 	}
-
+	/**
+	 * Key press event
+	 * 
+	 */
 	@Override
 	public void keyPressed(KeyEvent k) {
 		int key = k.getKeyCode();
@@ -95,7 +113,10 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 			gameframe.setVisible(true);
 		}
 	}
-
+	/**
+	 * Key released event
+	 * 
+	 */
 	@Override
 	public void keyReleased(KeyEvent k) {
 		int key = k.getKeyCode();

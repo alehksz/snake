@@ -26,7 +26,9 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
+/**
+ * The main Class Snake .
+ */
 public class Snake {
 	private static JTextField player;
 	private static JSplitPane splitPane;
@@ -34,15 +36,26 @@ public class Snake {
 	private static JPanel textPanel;
 	private static final String Command_Start = "Start";
 	// File file = new File("scores.txt");
-
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws FileNotFoundException the file not found exception
+	 */
 	public static void main(String[] args) throws FileNotFoundException {
 
 		new StartFrame().setVisible(true);
 
 	}
-
+	/**
+	 * The inner Class StartFrame.
+	 */
 	public static class StartFrame extends JFrame {
-
+		/**
+		 * Instantiates a new start frame.
+		 *
+		 * @throws FileNotFoundException the file not found exception
+		 */
 		public StartFrame() throws FileNotFoundException {
 			Map<Integer, String> scores = highestScore();
 			JFrame frame = new JFrame("Snake Start");
@@ -75,7 +88,7 @@ public class Snake {
 			commandPanel.add(btnPanel);
 			btnPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			startBtn.setActionCommand(Command_Start);
-			// newstuff
+			
 			JTextArea textArea = new JTextArea(5, 15);
 			textArea.setEditable(false);
 			textArea.append("Highest Scores" + "\n");
@@ -103,11 +116,20 @@ public class Snake {
 			StartPanel startgame = new StartPanel(frame, startBtn);
 
 		}
-
+		/**
+		 * Gets the player text from the textbox.
+		 *
+		 * @return player.getText()
+		 */
 		public static String getPlayerText() {
 			return player.getText();
 		}
-
+		/**
+		 * Returns a  reverse sorted map of the highscores within the scores.txt.
+		 *
+		 * @return sortedScores
+		 * @throws FileNotFoundException the file not found exception
+		 */
 		public Map<Integer, String> highestScore() throws FileNotFoundException {
 			Map<Integer, String> scores = new TreeMap<Integer, String>();
 

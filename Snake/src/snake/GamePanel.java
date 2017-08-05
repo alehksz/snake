@@ -26,7 +26,9 @@ import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+/**
+ * The Class GamePanel. Implements the methods required for the game 
+ */
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, KeyListener, ActionListener {
 
@@ -63,6 +65,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 	private boolean start;
 	private JFrame startFrame;
 
+	/**
+	 * Instantiates a new game panel. or the constructor
+	 *
+	 * @param frame the frame
+	 */
 	public GamePanel(JFrame frame) {
 		setPreferredSize(new Dimension(width, height));
 		setLayout(new BorderLayout());
@@ -80,11 +87,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		thread = new Thread(this);
 		thread.start();
 	}
-
+	/**
+	 * Sets the speed of snake .
+	 * @param fps the new fps
+	 */
 	private void setFPS(int fps) {
 		targetTime = 1000 / fps;
 	}
-
+	/**
+	 * Event listener for start command.
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
@@ -92,7 +105,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 			start = true;
 		}
 	}
-
+	/**
+	 * Key press event
+	 * 
+	 */
 	@Override
 	public void keyPressed(KeyEvent k) {
 		int key = k.getKeyCode();
@@ -108,7 +124,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		if (key == KeyEvent.VK_ENTER)
 			start = true;
 	}
-
+	/**
+	 * Key released event
+	 * 
+	 */
 	@Override
 	public void keyReleased(KeyEvent k) {
 		int key = k.getKeyCode();
@@ -129,7 +148,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 	public void keyTyped(KeyEvent k) {
 
 	}
-
+	/**
+	 * Run method, multi threading 
+	 * 
+	 */
 	@Override
 	public void run() {
 		if (running)
@@ -155,14 +177,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		}
 
 	}
-
+	/**
+	 * the initialization of game images and level  .
+	 */
 	private void init() {
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		g2d = image.createGraphics();
 		running = true;
 		setUpLevel();
 	}
-
+	/**
+	 * Sets the size of the snake, food, poisons, score .
+	 */
 	private void setUpLevel() {
 		snake = new ArrayList<Entity>();
 		apples = new ArrayList<Entity>();
@@ -186,7 +212,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		dx = dy = 0;
 		setFPS(10);
 	}
-
+	/**
+	 * Creates the poisons.
+	 */
 	private void createPoisons() {
 		if (poisons.size() <= 4) {
 			Entity e = new Entity(SIZE);
@@ -215,7 +243,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 			createPoisons();
 		}
 	}
-
+	/**
+	 * Creates the apples.
+	 */
 	private void createApples() {
 		if (apples.size() <= 15) {
 			Entity e = new Entity(SIZE);
@@ -244,7 +274,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 			createApples();
 		}
 	}
-
+	/**
+	 * Check spawned apples and poisons for overlapped entities
+	 *
+	 * @param e -the Entity e
+	 * @return true, if successful
+	 */
 	private boolean checkSpawn(Entity e) {
 		String ePos = e.toString();
 		for (int x = 0; x < spawned.size(); x++) {
@@ -254,14 +289,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		}
 		return false;
 	}
-
+	/**
+	 * render the graphics
+	 */
 	private void requestRender() {
 		render(g2d);
 		Graphics g = getGraphics();
 		g.drawImage(image, 0, 0, null);
 		g.dispose();
 	}
-
+	/**
+	 * Update the game. Handles collisions between entities and gameover situations. Also calls method to write highscore to file.
+	 */
 	private void update() {
 
 		timer++;
@@ -357,7 +396,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		}
 
 	}
-
+	/**
+	 * Records score to scores.txt file.
+	 *
+	 * @param score the score
+	 * @throws FileNotFoundException the file not found exception
+	 */
 	private void recordScore(int score) throws FileNotFoundException {
 		String highscore = score + ", " + Snake.StartFrame.getPlayerText() + "\n";
 
@@ -369,7 +413,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 			throw new FileNotFoundException();
 		}
 	}
-
+	/**
+	 * Render the graphics for gameover text, overlay, and entities.
+	 *
+	 * @param g2d the g 2 d
+	 */
 	public void render(Graphics2D g2d) {
 		g2d.clearRect(0, 0, width, height);
 		g2d.setColor(Color.GREEN);
