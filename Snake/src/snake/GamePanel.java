@@ -406,7 +406,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		if(visibilityCtr==15)
 		{
 			level++;
-			FPS++;
+			FPS+=2;
 			setFPS(FPS);
 			apples.removeAll(apples);
 			visibilityCtr=0;
