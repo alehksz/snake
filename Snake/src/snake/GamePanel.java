@@ -54,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 	private boolean gameover;
 	private int timer = 0;
 	private File file;
+	private int FPS=12;
 
 	private int dx;
 	private int dy;
@@ -68,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 	/**
 	 * Instantiates a new game panel. or the constructor
 	 *
-	 * @param frame the frame
+	 * @param frame 
 	 */
 	public GamePanel(JFrame frame) {
 		setPreferredSize(new Dimension(width, height));
@@ -210,7 +211,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 		gameover = false;
 		level = 1;
 		dx = dy = 0;
-		setFPS(10);
+		setFPS(FPS);
 	}
 	/**
 	 * Creates the poisons.
@@ -393,6 +394,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 				gameover = true;
 			if (head.getY() > height - 10)
 				gameover = true;
+		}
+		//New level stuff
+		int visibilityCtr = 0;
+		for(Entity e : apples){
+			if(!e.getVisible())
+			{
+				visibilityCtr++;
+			}
+		}
+		if(visibilityCtr==15)
+		{
+			level++;
+			FPS++;
+			setFPS(FPS);
+			apples.removeAll(apples);
+			visibilityCtr=0;
+			createApples();
 		}
 
 	}

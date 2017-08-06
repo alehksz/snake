@@ -6,3 +6,8 @@
 6, Who dis?
 8, Bob Loblaw
 5, Alanus Morissette
+8, Fez
+30, JS
+20, Ali G
+11, KoolAid
+42, IG:set_hook_
