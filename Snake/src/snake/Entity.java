@@ -18,6 +18,15 @@ public class Entity {
 		this.Size = Size;
 	}
 	/**
+	 * Default constructor for Entity
+	 */
+	public Entity()
+	{
+		this.Size=10;
+		this.x=0;
+		this.y=0;
+	}
+	/**
 	 * Gets the x point.
 	 *
 	 * @return the x

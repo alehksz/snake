@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, ActionLi
 	/**
 	 * Instantiates a new game panel. or the constructor
 	 *
-	 * @param frame 
+	 * @param frame the reference to the calling frame 
 	 */
 	public GamePanel(JFrame frame) {
 		setPreferredSize(new Dimension(width, height));
