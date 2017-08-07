@@ -12,3 +12,15 @@
 11, KoolAid
 42, IG:set_hook_
 15, aaa
+0, Green Giant
+38, Smokey the Bear
+0, Smokey the Bear
+0, Smokey the Bear
+0, Smokey the Bear
+0, Smokey the Bear
+0, Smokey the Bear
+0, Smokey the Bear
+0, Smokey the Bear
+0, Smokey the Bear
+1, Smokey the Bear
+0, Smokey the Bear
