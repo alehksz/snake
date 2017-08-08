@@ -43,7 +43,7 @@ public class StartPanel extends JPanel implements Runnable, KeyListener, ActionL
 		addKeyListener(this);
 		startbtn.addActionListener(this);
 		startbtn.addKeyListener(this);
-		gameframe = new JFrame("Snake");
+		gameframe = new JFrame("Green Snake");
 		gameframe.setContentPane(new GamePanel(startFrame));
 		gameframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameframe.setResizable(false);

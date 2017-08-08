@@ -58,7 +58,7 @@ public class Snake {
 		 */
 		public StartFrame() throws FileNotFoundException {
 			Map<Integer, String> scores = highestScore();
-			JFrame frame = new JFrame("Snake Start");
+			JFrame frame = new JFrame("Green Snake");
 			// frame.setContentPane(new StartPanel(frame));
 			// frame.setContentPane(new GamePanel(frame));
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
